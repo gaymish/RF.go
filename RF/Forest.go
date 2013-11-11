@@ -20,22 +20,22 @@ func BuildForest(inputs [][]interface{},labels []string, treesAmount, samplesAmo
 	done_flag := make(chan bool)
 	prog_counter := 0
 	mutex := &sync.Mutex{}
+    var wg sync.WaitGroup
 	for i:=0;i<treesAmount;i++{
+        wg.Add(1)
 		go func(x int){
+            defer wg.Done()
 			fmt.Printf(">> %v buiding %vth tree...\n", time.Now(), x)
 			forest.Trees[x] = BuildTree(inputs,labels,samplesAmount,selectedFeatureAmount)
 			//fmt.Printf("<< %v the %vth tree is done.\n",time.Now(), x)
 			mutex.Lock()
+            defer mutex.Unlock()
 			prog_counter+=1
 			fmt.Printf("%v tranning progress %.0f%%\n",time.Now(),float64(prog_counter) / float64(treesAmount)*100) 
-			mutex.Unlock()
-			done_flag <- true
 		}(i)
 	}
-
-	for i:=1;i<=treesAmount;i++{
-		<-done_flag
-	}
+    
+    wg.Wait()
 
 	fmt.Println("all done.")
 	return forest
