@@ -47,10 +47,10 @@ func DefaultForest(inputs [][]interface{},labels []string, treesAmount int) *For
 	return BuildForest(inputs,labels, treesAmount,n,m)
 }
 
-func (self *Forest) Predicate(input []interface{}) string{
+func (self *Forest) Predict(input []interface{}) string{
 	counter := make(map[string]float64)
 	for i:=0;i<len(self.Trees);i++{
-		tree_counter := PredicateTree(self.Trees[i],input)
+		tree_counter := Predict(self.Trees[i],input)
 		total := 0.0
 		for _,v := range tree_counter{
 			total += float64(v)

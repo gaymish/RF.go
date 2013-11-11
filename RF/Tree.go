@@ -237,7 +237,7 @@ func genLeafNode(labels []string) *TreeNode{
 }
 
 
-func predicate(node *TreeNode, input []interface{}) map[string]int{
+func predict_tree(node *TreeNode, input []interface{}) map[string]int{
 	if node.Labels != nil{ //leaf node
 		return node.Labels
 	}
@@ -282,6 +282,6 @@ func BuildTree(inputs [][]interface{}, labels []string, samples_count,selected_f
 
 
 
-func PredicateTree(tree *Tree, input []interface{}) map[string]int{
-	return predicate(tree.Root,input)
+func Predict(tree *Tree, input []interface{}) map[string]int{
+	return predict_tree(tree.Root,input)
 }
