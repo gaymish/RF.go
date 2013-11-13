@@ -17,7 +17,6 @@ func BuildForest(inputs [][]interface{},labels []string, treesAmount, samplesAmo
 	rand.Seed(time.Now().UnixNano())
 	forest := &Forest{}
 	forest.Trees = make([]*Tree,treesAmount)
-	done_flag := make(chan bool)
 	prog_counter := 0
 	mutex := &sync.Mutex{}
     var wg sync.WaitGroup
